@@ -44,11 +44,10 @@ public class BugCLI252Test {
     }
 
     @Test
-    public void testExactOptionNameMatch() throws ParseException {
+    public void testExactOptionNameMatch() {
         assertDoesNotThrow(()->
         new DefaultParser().parse(getOptions(), new String[] {"--prefix"})
-        )
-        ;
+        );
         
     }
 
