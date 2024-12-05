@@ -43,6 +43,6 @@ public class BugCLI252Test {
 
     @Test
     public void testExactOptionNameMatch() {
-        assertDoesNotThrow(()-> new DefaultParser().parse(getOptions(), new String[] { "--prefix" }));
+        assertDoesNotThrow(() -> new DefaultParser().parse(getOptions(), new String[] { "--prefix" }));
     }
 }
