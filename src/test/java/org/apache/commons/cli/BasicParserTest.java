@@ -17,6 +17,8 @@
 
 package org.apache.commons.cli;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -37,6 +39,7 @@ public class BasicParserTest extends AbstractParserTestCase {
     @Test
     @Disabled("not supported by the BasicParser")
     public void testAmbiguousLongWithoutEqualSingleDash() throws Exception {
+        assertTrue(true);
     }
 
     @Override
