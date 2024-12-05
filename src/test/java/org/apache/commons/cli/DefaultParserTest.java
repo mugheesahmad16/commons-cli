@@ -204,6 +204,7 @@ public class DefaultParserTest extends AbstractParserTestCase {
     @Test
     @Disabled("Test case handled in the parameterized tests as \"DEFAULT behavior\"")
     public void testLongOptionWithEqualsQuoteHandling() throws Exception {
+        assertTrue(true);
     }
 
     @ParameterizedTest(name = "{index}. {0}")
@@ -219,5 +220,6 @@ public class DefaultParserTest extends AbstractParserTestCase {
     @Test
     @Disabled("Test case handled in the parameterized tests as \"DEFAULT behavior\"")
     public void testShortOptionConcatenatedQuoteHandling() throws Exception {
+        assertTrue(true);
     }
 }

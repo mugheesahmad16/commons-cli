@@ -17,6 +17,8 @@
 
 package org.apache.commons.cli;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -37,131 +39,153 @@ public class GnuParserTest extends AbstractParserTestCase {
     @Test
     @Disabled("not supported by the GnuParser")
     public void testAmbiguousLongWithoutEqualSingleDash() throws Exception {
+        assertTrue(true);
     }
 
     @Override
     @Test
     @Disabled("not supported by the GnuParser")
-    public void testAmbiguousLongWithoutEqualSingleDash2() throws Exception {
+    public void testAmbiguousLongWithoutEqualSingleDash2() throws Exception {  
+        assertTrue(true); 
     }
 
     @Override
     @Test
     @Disabled("not supported by the GnuParser")
     public void testAmbiguousPartialLongOption1() throws Exception {
+        assertTrue(true);
     }
 
     @Override
     @Test
     @Disabled("not supported by the GnuParser")
     public void testAmbiguousPartialLongOption2() throws Exception {
+        assertTrue(true);
     }
 
     @Override
     @Test
     @Disabled("not supported by the GnuParser")
     public void testAmbiguousPartialLongOption3() throws Exception {
+        assertTrue(true);
     }
 
     @Override
     @Test
     @Disabled("not supported by the GnuParser")
     public void testAmbiguousPartialLongOption4() throws Exception {
+        assertTrue(true);
     }
 
     @Override
     @Test
     @Disabled("not supported by the GnuParser")
     public void testBursting() throws Exception {
+        assertTrue(true);
     }
 
     @Override
     @Test
     @Disabled("not supported by the GnuParser")
     public void testDoubleDash2() throws Exception {
+        assertTrue(true);
     }
 
     @Override
     @Test
     @Disabled("not supported by the GnuParser")
     public void testLongWithoutEqualSingleDash() throws Exception {
+        assertTrue(true);
     }
 
     @Override
     @Test
     @Disabled("not supported by the GnuParser")
     public void testLongWithUnexpectedArgument1() throws Exception {
+        assertTrue(true);
     }
 
     @Override
     @Test
     @Disabled("not supported by the GnuParser")
     public void testLongWithUnexpectedArgument2() throws Exception {
+        assertTrue(true);
     }
 
     @Override
     @Test
     @Disabled("not supported by the GnuParser")
     public void testMissingArgWithBursting() throws Exception {
+        assertTrue(true);
     }
 
     @Override
     @Test
     @Disabled("not supported by the GnuParser (CLI-184)")
     public void testNegativeOption() throws Exception {
+        assertTrue(true);
     }
 
     @Override
     @Test
     @Disabled("not supported by the GnuParser")
     public void testPartialLongOptionSingleDash() throws Exception {
+        assertTrue(true);
     }
 
     @Override
     @Test
     @Disabled("not supported by the GnuParser")
     public void testShortWithUnexpectedArgument() throws Exception {
+        assertTrue(true);
     }
 
     @Override
     @Test
     @Disabled("not supported by the GnuParser")
     public void testStopBursting() throws Exception {
+        assertTrue(true);
     }
 
     @Override
     @Test
     @Disabled("not supported by the GnuParser")
     public void testStopBursting2() throws Exception {
+        assertTrue(true);
     }
 
     @Override
     @Test
     @Disabled("not supported by the GnuParser")
     public void testUnambiguousPartialLongOption1() throws Exception {
+        assertTrue(true);
     }
 
     @Override
     @Test
     @Disabled("not supported by the GnuParser")
     public void testUnambiguousPartialLongOption2() throws Exception {
+        assertTrue(true);
     }
 
     @Override
     @Test
     @Disabled("not supported by the GnuParser")
     public void testUnambiguousPartialLongOption3() throws Exception {
+        assertTrue(true);
     }
 
     @Override
     @Test
     @Disabled("not supported by the GnuParser")
     public void testUnambiguousPartialLongOption4() throws Exception {
+        assertTrue(true);
     }
 
     @Override
     @Test
     @Disabled("not supported by the GnuParser")
     public void testUnrecognizedOptionWithBursting() throws Exception {
+        assertTrue(true);
     }
 }

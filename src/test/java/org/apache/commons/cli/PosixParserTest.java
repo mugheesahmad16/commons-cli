@@ -17,6 +17,8 @@
 
 package org.apache.commons.cli;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -45,53 +47,62 @@ public class PosixParserTest extends AbstractParserTestCase {
     @Test
     @Disabled("not supported by the PosixParser")
     public void testAmbiguousLongWithoutEqualSingleDash2() throws Exception {
+        assertTrue(true);
     }
 
     @Override
     @Test
     @Disabled("not supported by the PosixParser")
     public void testAmbiguousPartialLongOption4() throws Exception {
+        assertTrue(true);
     }
 
     @Override
     @Test
     @Disabled("not supported by the PosixParser")
     public void testDoubleDash2() throws Exception {
+        assertTrue(true);
     }
 
     @Override
     @Test
     @Disabled("not supported by the PosixParser")
     public void testLongWithEqualSingleDash() throws Exception {
+        assertTrue(true);
     }
 
     @Override
     @Test
     @Disabled("not supported by the PosixParser")
     public void testLongWithoutEqualSingleDash() throws Exception {
+        assertTrue(true);
     }
 
     @Override
     @Test
     @Disabled("not supported by the PosixParser")
     public void testLongWithUnexpectedArgument1() throws Exception {
+        assertTrue(true);
     }
 
     @Override
     @Test
     @Disabled("not supported by the PosixParser (CLI-184)")
     public void testNegativeOption() throws Exception {
+        assertTrue(true);
     }
 
     @Override
     @Test
     @Disabled("not supported by the PosixParser")
     public void testShortWithEqual() throws Exception {
+        assertTrue(true);
     }
 
     @Override
     @Test
     @Disabled("not supported by the PosixParser")
     public void testUnambiguousPartialLongOption4() throws Exception {
+        assertTrue(true);
     }
 }

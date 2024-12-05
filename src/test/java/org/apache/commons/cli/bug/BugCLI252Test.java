@@ -17,6 +17,7 @@
 
 package org.apache.commons.cli.bug;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.apache.commons.cli.AmbiguousOptionException;
@@ -44,7 +45,11 @@ public class BugCLI252Test {
 
     @Test
     public void testExactOptionNameMatch() throws ParseException {
-        new DefaultParser().parse(getOptions(), new String[] {"--prefix"});
+        assertDoesNotThrow(()->
+        new DefaultParser().parse(getOptions(), new String[] {"--prefix"})
+        )
+        ;
+        
     }
 
 }

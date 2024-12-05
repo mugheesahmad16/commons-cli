@@ -240,6 +240,7 @@ public class TypeHandlerTest {
     @Test
     public void testOpenFile() throws ParseException, IOException {
         try (FileInputStream fis = TypeHandler.openFile("src/test/resources/org/apache/commons/cli/existing-readable.file")) {
+            assertNotNull(fis);
             IOUtils.consume(fis);
         }
     }

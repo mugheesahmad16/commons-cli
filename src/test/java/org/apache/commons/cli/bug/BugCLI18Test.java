@@ -17,6 +17,8 @@
 
 package org.apache.commons.cli.bug;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
@@ -42,5 +44,6 @@ public class BugCLI18Test {
         formatter.printHelp(new PrintWriter(out), 80, "foobar",
             "dsfkfsh kdh hsd hsdh fkshdf ksdh fskdh fsdh fkshfk sfdkjhskjh fkjh fkjsh khsdkj hfskdhf skjdfh ksf khf s", options, 2, 2,
             "blort j jgj j jg jhghjghjgjhgjhg jgjhgj jhg jhg hjg jgjhghjg jhg hjg jhgjg jgjhghjg jg jgjhgjgjg jhg jhgjh" + '\r' + '\n' + "rarrr", true);
-    }
+    assertFalse(out.toString().isEmpty(), "The generated output should not be empty");
+        }
 }
