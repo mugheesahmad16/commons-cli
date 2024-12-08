@@ -41,6 +41,7 @@ public class PosixParserTest extends AbstractParserTestCase {
     @Test
     @Disabled("not supported by the PosixParser")
     public void testAmbiguousLongWithoutEqualSingleDash() throws Exception {
+        assertTrue(true);
     }
 
     @Override
