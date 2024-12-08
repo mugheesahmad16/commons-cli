@@ -40,9 +40,19 @@ public class OptionTest {
 
         private final String defaultValue;
 
-        DefaultOption(final String opt, final String description, final String defaultValue) throws IllegalArgumentException {
+        DefaultOption(final String opt, final String description, final String defaultValue)
+                throws IllegalArgumentException {
             super(opt, true, description);
             this.defaultValue = defaultValue;
+        }
+
+        DefaultOption(DefaultOption other) {
+            super(other);
+            this.defaultValue = other.defaultValue;
+        }
+
+        public static DefaultOption copyOf(DefaultOption other) {
+            return new DefaultOption(other);
         }
 
         @Override
@@ -58,6 +68,15 @@ public class OptionTest {
             super(opt, hasArg, description);
         }
 
+        TestOption(TestOption other) {
+            super(other);
+            // Copy any additional fields specific to TestOption
+        }
+
+        public static TestOption copyOf(TestOption other) {
+            return new TestOption(other);
+        }
+
         @Override
         public boolean addValue(final String value) {
             processValue(value);
@@ -65,8 +84,10 @@ public class OptionTest {
         }
     }
 
-    private static void checkOption(final Option option, final String opt, final String description, final String longOpt, final int numArgs,
-            final String argName, final boolean required, final boolean optionalArg, final char valueSeparator, final Class<?> cls, final String deprecatedDesc,
+    private static void checkOption(final Option option, final String opt, final String description,
+            final String longOpt, final int numArgs,
+            final String argName, final boolean required, final boolean optionalArg, final char valueSeparator,
+            final Class<?> cls, final String deprecatedDesc,
             final Boolean deprecatedForRemoval, final String deprecatedSince) {
         assertEquals(opt, option.getOpt());
         assertEquals(description, option.getDescription());
@@ -153,54 +174,82 @@ public class OptionTest {
     public void testBuilderMethods() {
         final char defaultSeparator = (char) 0;
 
-        checkOption(Option.builder("a").desc("desc").build(), "a", "desc", null, Option.UNINITIALIZED, null, false, false, defaultSeparator, String.class, null,
+        checkOption(Option.builder("a").desc("desc").build(), "a", "desc", null, Option.UNINITIALIZED, null, false,
+                false, defaultSeparator, String.class, null,
                 null, null);
-        checkOption(Option.builder("a").desc("desc").build(), "a", "desc", null, Option.UNINITIALIZED, null, false, false, defaultSeparator, String.class, null,
+        checkOption(Option.builder("a").desc("desc").build(), "a", "desc", null, Option.UNINITIALIZED, null, false,
+                false, defaultSeparator, String.class, null,
                 null, null);
-        checkOption(Option.builder("a").desc("desc").longOpt("aaa").build(), "a", "desc", "aaa", Option.UNINITIALIZED, null, false, false, defaultSeparator,
+        checkOption(Option.builder("a").desc("desc").longOpt("aaa").build(), "a", "desc", "aaa", Option.UNINITIALIZED,
+                null, false, false, defaultSeparator,
                 String.class, null, null, null);
-        checkOption(Option.builder("a").desc("desc").hasArg(true).build(), "a", "desc", null, 1, null, false, false, defaultSeparator, String.class, null, null,
+        checkOption(Option.builder("a").desc("desc").hasArg(true).build(), "a", "desc", null, 1, null, false, false,
+                defaultSeparator, String.class, null, null,
                 null);
-        checkOption(Option.builder("a").desc("desc").hasArg(false).build(), "a", "desc", null, Option.UNINITIALIZED, null, false, false, defaultSeparator,
+        checkOption(Option.builder("a").desc("desc").hasArg(false).build(), "a", "desc", null, Option.UNINITIALIZED,
+                null, false, false, defaultSeparator,
                 String.class, null, null, null);
-        checkOption(Option.builder("a").desc("desc").hasArg(true).build(), "a", "desc", null, 1, null, false, false, defaultSeparator, String.class, null, null,
+        checkOption(Option.builder("a").desc("desc").hasArg(true).build(), "a", "desc", null, 1, null, false, false,
+                defaultSeparator, String.class, null, null,
                 null);
-        checkOption(Option.builder("a").desc("desc").numberOfArgs(3).build(), "a", "desc", null, 3, null, false, false, defaultSeparator, String.class, null,
+        checkOption(Option.builder("a").desc("desc").numberOfArgs(3).build(), "a", "desc", null, 3, null, false, false,
+                defaultSeparator, String.class, null,
                 null, null);
-        checkOption(Option.builder("a").desc("desc").required(true).build(), "a", "desc", null, Option.UNINITIALIZED, null, true, false, defaultSeparator,
+        checkOption(Option.builder("a").desc("desc").required(true).build(), "a", "desc", null, Option.UNINITIALIZED,
+                null, true, false, defaultSeparator,
                 String.class, null, null, null);
-        checkOption(Option.builder("a").desc("desc").required(false).build(), "a", "desc", null, Option.UNINITIALIZED, null, false, false, defaultSeparator,
+        checkOption(Option.builder("a").desc("desc").required(false).build(), "a", "desc", null, Option.UNINITIALIZED,
+                null, false, false, defaultSeparator,
                 String.class, null, null, null);
 
-        checkOption(Option.builder("a").desc("desc").argName("arg1").build(), "a", "desc", null, Option.UNINITIALIZED, "arg1", false, false, defaultSeparator,
+        checkOption(Option.builder("a").desc("desc").argName("arg1").build(), "a", "desc", null, Option.UNINITIALIZED,
+                "arg1", false, false, defaultSeparator,
                 String.class, null, null, null);
-        checkOption(Option.builder("a").desc("desc").optionalArg(false).build(), "a", "desc", null, Option.UNINITIALIZED, null, false, false, defaultSeparator,
+        checkOption(Option.builder("a").desc("desc").optionalArg(false).build(), "a", "desc", null,
+                Option.UNINITIALIZED, null, false, false, defaultSeparator,
                 String.class, null, null, null);
-        checkOption(Option.builder("a").desc("desc").optionalArg(true).build(), "a", "desc", null, 1, null, false, true, defaultSeparator, String.class, null,
+        checkOption(Option.builder("a").desc("desc").optionalArg(true).build(), "a", "desc", null, 1, null, false, true,
+                defaultSeparator, String.class, null,
                 null, null);
-        checkOption(Option.builder("a").desc("desc").valueSeparator(':').build(), "a", "desc", null, Option.UNINITIALIZED, null, false, false, ':',
+        checkOption(Option.builder("a").desc("desc").valueSeparator(':').build(), "a", "desc", null,
+                Option.UNINITIALIZED, null, false, false, ':',
                 String.class, null, null, null);
-        checkOption(Option.builder("a").desc("desc").type(Integer.class).build(), "a", "desc", null, Option.UNINITIALIZED, null, false, false, defaultSeparator,
+        checkOption(Option.builder("a").desc("desc").type(Integer.class).build(), "a", "desc", null,
+                Option.UNINITIALIZED, null, false, false, defaultSeparator,
                 Integer.class, null, null, null);
-        checkOption(Option.builder("a").desc("desc").type(null).build(), "a", "desc", null, Option.UNINITIALIZED, null, false, false, defaultSeparator,
+        checkOption(Option.builder("a").desc("desc").type(null).build(), "a", "desc", null, Option.UNINITIALIZED, null,
+                false, false, defaultSeparator,
                 String.class, null, null, null);
-        checkOption(Option.builder().option("a").desc("desc").type(Integer.class).build(), "a", "desc", null, Option.UNINITIALIZED, null, false, false,
+        checkOption(Option.builder().option("a").desc("desc").type(Integer.class).build(), "a", "desc", null,
+                Option.UNINITIALIZED, null, false, false,
                 defaultSeparator, Integer.class, null, null, null);
         // Deprecated
-        checkOption(Option.builder().option("a").desc("desc").type(Integer.class).deprecated().build(), "a", "desc", null, Option.UNINITIALIZED, null, false,
+        checkOption(Option.builder().option("a").desc("desc").type(Integer.class).deprecated().build(), "a", "desc",
+                null, Option.UNINITIALIZED, null, false,
                 false, defaultSeparator, Integer.class, "", false, "");
-        checkOption(Option.builder().option("a").desc("desc").type(Integer.class).deprecated(DeprecatedAttributes.builder().get()).build(), "a", "desc", null,
+        checkOption(
+                Option.builder().option("a").desc("desc").type(Integer.class)
+                        .deprecated(DeprecatedAttributes.builder().get()).build(),
+                "a", "desc", null,
                 Option.UNINITIALIZED, null, false, false, defaultSeparator, Integer.class, "", false, "");
-        checkOption(Option.builder().option("a").desc("desc").type(Integer.class).deprecated(DeprecatedAttributes.builder().setDescription("X").get()).build(),
-                "a", "desc", null, Option.UNINITIALIZED, null, false, false, defaultSeparator, Integer.class, "X", false, "");
         checkOption(
                 Option.builder().option("a").desc("desc").type(Integer.class)
-                        .deprecated(DeprecatedAttributes.builder().setDescription("X").setForRemoval(true).get()).build(),
-                "a", "desc", null, Option.UNINITIALIZED, null, false, false, defaultSeparator, Integer.class, "X", true, "");
+                        .deprecated(DeprecatedAttributes.builder().setDescription("X").get()).build(),
+                "a", "desc", null, Option.UNINITIALIZED, null, false, false, defaultSeparator, Integer.class, "X",
+                false, "");
         checkOption(
                 Option.builder().option("a").desc("desc").type(Integer.class)
-                        .deprecated(DeprecatedAttributes.builder().setDescription("X").setForRemoval(true).setSince("2.0").get()).build(),
-                "a", "desc", null, Option.UNINITIALIZED, null, false, false, defaultSeparator, Integer.class, "X", true, "2.0");
+                        .deprecated(DeprecatedAttributes.builder().setDescription("X").setForRemoval(true).get())
+                        .build(),
+                "a", "desc", null, Option.UNINITIALIZED, null, false, false, defaultSeparator, Integer.class, "X", true,
+                "");
+        checkOption(
+                Option.builder().option("a").desc("desc").type(Integer.class)
+                        .deprecated(DeprecatedAttributes.builder().setDescription("X").setForRemoval(true)
+                                .setSince("2.0").get())
+                        .build(),
+                "a", "desc", null, Option.UNINITIALIZED, null, false, false, defaultSeparator, Integer.class, "X", true,
+                "2.0");
     }
 
     @Test
@@ -215,9 +264,9 @@ public class OptionTest {
 
     // See https://issues.apache.org/jira/browse/CLI-21
     @Test
-    public void testClone() {
+    public void testOption() {
         final TestOption a = new TestOption("a", true, "");
-        final TestOption b = (TestOption) a.clone();
+        final TestOption b = TestOption.copyOf(a);
         assertEquals(a, b);
         assertNotSame(a, b);
         a.setDescription("a");
@@ -297,7 +346,8 @@ public class OptionTest {
     public void testHashCode() {
         assertNotEquals(Option.builder("test").build().hashCode(), Option.builder("test2").build().hashCode());
         assertNotEquals(Option.builder("test").build().hashCode(), Option.builder().longOpt("test").build().hashCode());
-        assertNotEquals(Option.builder("test").build().hashCode(), Option.builder("test").longOpt("long test").build().hashCode());
+        assertNotEquals(Option.builder("test").build().hashCode(),
+                Option.builder("test").longOpt("long test").build().hashCode());
     }
 
     @Test
@@ -322,7 +372,7 @@ public class OptionTest {
     @Test
     public void testSubclass() {
         final Option option = new DefaultOption("f", "file", "myfile.txt");
-        final Option clone = (Option) option.clone();
+        final Option clone = DefaultOption.copyOf((DefaultOption) option);
         assertEquals("myfile.txt", clone.getValue());
         assertEquals(DefaultOption.class, clone.getClass());
     }
