@@ -244,7 +244,7 @@ public abstract class Parser implements CommandLineParser {
             throw new UnrecognizedOptionException("Unrecognized option: " + arg, arg);
         }
         // get the option represented by arg
-        final Option opt = (Option) getOptions().getOption(arg).copy();
+        final Option opt = (Option) getOptions().getOption(arg).clone();
         // update the required options and groups
         updateRequiredOptions(opt);
         // if the option takes an argument value

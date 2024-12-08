@@ -44,6 +44,7 @@ import java.util.Objects;
  * @see org.apache.commons.cli.CommandLine
  */
 public class Option implements Cloneable, Serializable {
+
     /**
      * Builds {@code Option} instances using descriptive methods.
      * <p>
@@ -56,14 +57,6 @@ public class Option implements Cloneable, Serializable {
      *
      * @since 1.3
      */
-
-    // Copy constructor
-    public Option(Option other) {
-        this.values = new ArrayList<>(other.values);
-        this.deprecated = other.deprecated; // Assuming DeprecatedAttributes is immutable or safely shared
-        this.option = other.option;
-    }
-
     public static final class Builder {
 
         /** The default type. */
@@ -137,7 +130,6 @@ public class Option implements Cloneable, Serializable {
             this.argName = argName;
             return this;
         }
-
         /**
          * Constructs an Option with the values declared by this {@link Builder}.
          *
@@ -437,7 +429,6 @@ public class Option implements Cloneable, Serializable {
     private Class<?> type = String.class;
 
     /** The list of argument values. **/
-
     private List<String> values = new ArrayList<>();
 
     /** The character that is the value separator. */
@@ -564,22 +555,23 @@ public class Option implements Cloneable, Serializable {
     }
 
     /**
-     * A rather odd clone method - due to incorrect code in 1.0 it is public and in
-     * 1.1 rather than throwing a CloneNotSupportedException it throws a
+     * A rather odd clone method - due to incorrect code in 1.0 it is public and in 1.1 rather than throwing a CloneNotSupportedException it throws a
      * RuntimeException so as to maintain backwards compatible at the API level.
      *
-     * After calling this method, it is very likely you will want to call
-     * clearValues().
+     * After calling this method, it is very likely you will want to call clearValues().
      *
      * @return a clone of this Option instance.
-     * @throws RuntimeException if a {@link CloneNotSupportedException} has been
-     *                          thrown by {@code super.clone()}.
+     * @throws RuntimeException if a {@link CloneNotSupportedException} has been thrown by {@code super.clone()}.
      */
-
-     public Option copy() {
-        final Option option = new Option(this); // Use the copy constructor
-        option.values = new ArrayList<>(this.values); // Deep copy the values list
-        return option;
+    @Override
+    public Object clone() {
+        try {
+            final Option option = (Option) super.clone();
+            option.values = new ArrayList<>(values);
+            return option;
+        } catch (final CloneNotSupportedException e) {
+            throw new UnsupportedOperationException(e.getMessage(), e);
+        }
     }
 
     @Override
