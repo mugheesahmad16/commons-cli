@@ -542,9 +542,9 @@
      @Override
      public Object clone() {
          try {
-             final Option option = (Option) super.clone();
-             option.values = new ArrayList<>(values);
-             return option;
+             final Option optionclass = (Option) super.clone();
+             optionclass.values = new ArrayList<>(values);
+             return optionclass;
          } catch (final CloneNotSupportedException e) {
              throw new UnsupportedOperationException(e.getMessage(), e);
          }
