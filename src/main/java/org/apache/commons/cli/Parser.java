@@ -155,7 +155,8 @@ public abstract class Parser implements CommandLineParser {
      *                        the command line tokens.
      * @since 1.1
      */
-    public CommandLine parse(final Options options, final String[] arguments, final Properties properties, final boolean stopAtNonOption)
+    public CommandLine parse(final Options options, final String[] arguments, final Properties properties,
+            final boolean stopAtNonOption)
             throws ParseException {
         // clear out the data in options in case it's been used before (CLI-71)
         for (final Option opt : options.helpOptions()) {
