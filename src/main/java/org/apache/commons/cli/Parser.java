@@ -189,41 +189,72 @@ public abstract class Parser implements CommandLineParser {
 
     private void initializeMembers(final Options options) {
         setOptions(options);
-    }
-
-    private boolean processToken(final String token, final ListIterator<String> iterator, final boolean stopAtNonOption,
-            boolean eatTheRest) throws ParseException {
-        if ("--".equals(token)) {
-            eatTheRest = true;
-        } else if ("-".equals(token)) {
-            if (stopAtNonOption) {
-                eatTheRest = true;
-            } else {
-                cmd.addArg(token);
-            }
-        } else if (token.startsWith("-")) {
-            if (stopAtNonOption && !getOptions().hasOption(token)) {
-                eatTheRest = true;
-                cmd.addArg(token);
-            } else {
-                processOption(token, iterator);
-            }
+        }
+        
+        private boolean processToken(final String token, final ListIterator<String> iterator, final boolean stopAtNonOption,
+        boolean eatTheRest) throws ParseException {
+        if (isDoubleDash(token)) {
+        eatTheRest = true;
+        } else if (isSingleDash(token)) {
+        eatTheRest = handleSingleDash(token, stopAtNonOption);
+        } else if (isOption(token)) {
+        eatTheRest = handleOption(token, iterator, stopAtNonOption);
         } else {
-            cmd.addArg(token);
-            if (stopAtNonOption) {
-                eatTheRest = true;
-            }
+        eatTheRest = handleArgument(token, stopAtNonOption);
         }
+        
         if (eatTheRest) {
-            while (iterator.hasNext()) {
-                final String str = iterator.next();
-                if (!"--".equals(str)) {
-                    cmd.addArg(str);
-                }
-            }
+        eatRemainingTokens(iterator);
         }
+        
         return eatTheRest;
-    }
+        }
+        
+        private boolean isDoubleDash(String token) {
+        return "--".equals(token);
+        }
+        
+        private boolean isSingleDash(String token) {
+        return "-".equals(token);
+        }
+        
+        private boolean isOption(String token) {
+        return token.startsWith("-");
+        }
+        
+        private boolean handleSingleDash(String token, boolean stopAtNonOption) {
+        if (stopAtNonOption) {
+        return true;
+        } else {
+        cmd.addArg(token);
+        return false;
+        }
+        }
+        
+        private boolean handleOption(String token, ListIterator<String> iterator, boolean stopAtNonOption) throws ParseException {
+        if (stopAtNonOption && !getOptions().hasOption(token)) {
+        cmd.addArg(token);
+        return true;
+        } else {
+        processOption(token, iterator);
+        return false;
+        }
+        }
+        
+        private boolean handleArgument(String token, boolean stopAtNonOption) {
+        cmd.addArg(token);
+        return stopAtNonOption;
+        }
+        
+        private void eatRemainingTokens(ListIterator<String> iterator) {
+        while (iterator.hasNext()) {
+        final String str = iterator.next();
+        if (!"--".equals(str)) {
+        cmd.addArg(str);
+        }
+        }
+        }
+        
 
     /**
      * Process the argument values for the specified Option {@code opt} using the
