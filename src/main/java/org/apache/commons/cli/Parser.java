@@ -156,67 +156,73 @@ public abstract class Parser implements CommandLineParser {
      * @since 1.1
      */
     public CommandLine parse(final Options options, final String[] arguments, final Properties properties,
-            final boolean stopAtNonOption)
-            throws ParseException {
-        // clear out the data in options in case it's been used before (CLI-71)
-        for (final Option opt : options.helpOptions()) {
-            opt.clearValues();
-        }
-        // clear the data from the groups
-        for (final OptionGroup group : options.getOptionGroups()) {
-            group.setSelected(null);
-        }
-        // initialize members
-        setOptions(options);
+            final boolean stopAtNonOption) throws ParseException {
+        clearOptions(options);
+        initializeMembers(options);
         cmd = CommandLine.builder().get();
         boolean eatTheRest = false;
         final List<String> tokenList = Arrays
                 .asList(flatten(getOptions(), arguments == null ? new String[0] : arguments, stopAtNonOption));
         final ListIterator<String> iterator = tokenList.listIterator();
-        // process each flattened token
+
         while (iterator.hasNext()) {
             final String token = iterator.next();
             if (token != null) {
-                // the value is the double-dash
-                if ("--".equals(token)) {
-                    eatTheRest = true;
-                } else if ("-".equals(token)) {
-                    // the value is a single dash
-                    if (stopAtNonOption) {
-                        eatTheRest = true;
-                    } else {
-                        cmd.addArg(token);
-                    }
-                } else if (token.startsWith("-")) {
-                    // the value is an option
-                    if (stopAtNonOption && !getOptions().hasOption(token)) {
-                        eatTheRest = true;
-                        cmd.addArg(token);
-                    } else {
-                        processOption(token, iterator);
-                    }
-                } else {
-                    // the value is an argument
-                    cmd.addArg(token);
-                    if (stopAtNonOption) {
-                        eatTheRest = true;
-                    }
-                }
-                // eat the remaining tokens
-                if (eatTheRest) {
-                    while (iterator.hasNext()) {
-                        final String str = iterator.next();
-                        // ensure only one double-dash is added
-                        if (!"--".equals(str)) {
-                            cmd.addArg(str);
-                        }
-                    }
+                eatTheRest = processToken(token, iterator, stopAtNonOption, eatTheRest);
+            }
+        }
+        return cmd;
+    }
+
+    private void clearOptions(final Options options) {
+        for (final Option opt : options.helpOptions()) {
+            opt.clearValues();
+        }
+        for (final OptionGroup group : options.getOptionGroups()) {
+            try {
+                group.setSelected(null);
+            } catch (AlreadySelectedException e) {
+                System.err.println("An option has already been selected: " + e.getMessage());
+            }
+        }
+    }
+
+    private void initializeMembers(final Options options) {
+        setOptions(options);
+    }
+
+    private boolean processToken(final String token, final ListIterator<String> iterator, final boolean stopAtNonOption,
+            boolean eatTheRest) throws ParseException {
+        if ("--".equals(token)) {
+            eatTheRest = true;
+        } else if ("-".equals(token)) {
+            if (stopAtNonOption) {
+                eatTheRest = true;
+            } else {
+                cmd.addArg(token);
+            }
+        } else if (token.startsWith("-")) {
+            if (stopAtNonOption && !getOptions().hasOption(token)) {
+                eatTheRest = true;
+                cmd.addArg(token);
+            } else {
+                processOption(token, iterator);
+            }
+        } else {
+            cmd.addArg(token);
+            if (stopAtNonOption) {
+                eatTheRest = true;
+            }
+        }
+        if (eatTheRest) {
+            while (iterator.hasNext()) {
+                final String str = iterator.next();
+                if (!"--".equals(str)) {
+                    cmd.addArg(str);
                 }
             }
         }
-        processProperties(properties);
-        checkRequiredOptions();
-        return cmd;
+        return eatTheRest;
     }
 
     /**
