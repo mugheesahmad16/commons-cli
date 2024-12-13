@@ -570,9 +570,9 @@ public class Option implements Cloneable, Serializable {
     @Override
     public Object clone() {
         try {
-            final Option optionclass = (Option) super.clone();
-            optionclass.values = new ArrayList<>(values);
-            return optionclass;
+            final Option option = (Option) super.clone();
+            option.values = new ArrayList<>(values);
+            return option;
         } catch (final CloneNotSupportedException e) {
             throw new UnsupportedOperationException(e.getMessage(), e);
         }
@@ -693,7 +693,7 @@ public class Option implements Cloneable, Serializable {
 
     /**
      * Gets the version when this option was added.
-     *
+     * 
      * @return the version when this option was added, or {@code null} if not set.
      */
     public String getSince() {
