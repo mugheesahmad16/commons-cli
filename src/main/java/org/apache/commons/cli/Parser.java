@@ -23,6 +23,8 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Properties;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
 /**
  * {@code Parser} creates {@link CommandLine}s.
@@ -173,6 +175,7 @@ public abstract class Parser implements CommandLineParser {
         }
         return cmd;
     }
+    private static final Logger LOGGER = Logger.getLogger(Parser.class.getName());
 
     private void clearOptions(final Options options) {
         for (final Option opt : options.helpOptions()) {
@@ -182,7 +185,7 @@ public abstract class Parser implements CommandLineParser {
             try {
                 group.setSelected(null);
             } catch (AlreadySelectedException e) {
-                System.err.println("An option has already been selected: " + e.getMessage());
+                LOGGER.log(Level.WARNING, "An option has already been selected: " + e.getMessage(), e);
             }
         }
     }
@@ -193,22 +196,23 @@ public abstract class Parser implements CommandLineParser {
         
         private boolean processToken(final String token, final ListIterator<String> iterator, final boolean stopAtNonOption,
         boolean eatTheRest) throws ParseException {
-        if (isDoubleDash(token)) {
-        eatTheRest = true;
-        } else if (isSingleDash(token)) {
-        eatTheRest = handleSingleDash(token, stopAtNonOption);
-        } else if (isOption(token)) {
-        eatTheRest = handleOption(token, iterator, stopAtNonOption);
-        } else {
-        eatTheRest = handleArgument(token, stopAtNonOption);
-        }
-        
-        if (eatTheRest) {
-        eatRemainingTokens(iterator);
-        }
-        
-        return eatTheRest;
-        }
+            boolean shouldEatTheRest = eatTheRest;
+            if (isDoubleDash(token)) {
+            shouldEatTheRest = true;
+            } else if (isSingleDash(token)) {
+            shouldEatTheRest = handleSingleDash(token, stopAtNonOption);
+            } else if (isOption(token)) {
+            shouldEatTheRest = handleOption(token, iterator, stopAtNonOption);
+            } else {
+            shouldEatTheRest = handleArgument(token, stopAtNonOption);
+            }
+            
+            if (shouldEatTheRest) {
+            eatRemainingTokens(iterator);
+            }
+            
+            return shouldEatTheRest;
+            }
         
         private boolean isDoubleDash(String token) {
         return "--".equals(token);
