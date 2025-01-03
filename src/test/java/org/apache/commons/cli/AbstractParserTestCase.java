@@ -413,7 +413,7 @@ public void testAmbiguousLongWithoutEqualSingleDash() throws Exception {
         assertArrayEquals(new String[] { "rock" }, cmd.getArgs());
 
         localOptions.addOption(Option.builder("j").numberOfArgs(3).optionalArg(true).build());
-        cmd = parse(parser, options, new String[] { "-j" }, properties);
+        cmd = parse(parser, localOptions, new String[] { "-j" }, properties);
     }
 
     @Test
@@ -594,7 +594,7 @@ public void testAmbiguousLongWithoutEqualSingleDash() throws Exception {
         properties.put("b", "true");
         properties.put("x", "true");
 
-        final CommandLine cmd = parse(parser, options, args, properties);
+        final CommandLine cmd = parse(parser, localOptions, args, properties);
 
         assertTrue(cmd.hasOption("a"));
         assertFalse(cmd.hasOption("b"));
