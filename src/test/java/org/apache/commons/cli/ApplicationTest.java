@@ -178,7 +178,7 @@ class ApplicationTest {
 
         final CommandLine line = parser.parse(options, args);
         assertTrue(line.hasOption("block-size"));
-        assertEquals("10",line.getOptionValue("block-size"));
+        assertEquals("10", line.getOptionValue("block-size"));
     }
 
     /**
