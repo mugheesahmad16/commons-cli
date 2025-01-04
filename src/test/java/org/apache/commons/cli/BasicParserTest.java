@@ -108,7 +108,7 @@ public class BasicParserTest extends AbstractParserTestCase {
     @Override
     @Test
     @Disabled("not supported by the BasicParser")
-    public void testMissingArgWithBursting() throws Exception {
+    public void testMissingArgWithBursting() {
     }
 
     @Override
@@ -192,6 +192,6 @@ public class BasicParserTest extends AbstractParserTestCase {
     @Override
     @Test
     @Disabled("not supported by the BasicParser")
-    public void testUnrecognizedOptionWithBursting() throws Exception {
+    public void testUnrecognizedOptionWithBursting() {
     }
 }

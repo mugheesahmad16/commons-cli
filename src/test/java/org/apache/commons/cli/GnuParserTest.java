@@ -102,7 +102,7 @@ public class GnuParserTest extends AbstractParserTestCase {
     @Override
     @Test
     @Disabled("not supported by the GnuParser")
-    public void testMissingArgWithBursting() throws Exception {
+    public void testMissingArgWithBursting() {
     }
 
     @Override
@@ -162,6 +162,6 @@ public class GnuParserTest extends AbstractParserTestCase {
     @Override
     @Test
     @Disabled("not supported by the GnuParser")
-    public void testUnrecognizedOptionWithBursting() throws Exception {
+    public void testUnrecognizedOptionWithBursting() {
     }
 }

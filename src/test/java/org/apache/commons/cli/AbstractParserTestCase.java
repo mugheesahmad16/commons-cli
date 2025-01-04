@@ -65,10 +65,9 @@ public abstract class AbstractParserTestCase {
         //@formatter:on
     }
 
-    public void testAmbiguousArgParsing() throws Exception {
+    public void testAmbiguousArgParsing() {
         final String[] args = { "-=-" };
         final Options localOptions = new Options(); // Renamed from 'options' to 'localOptions'
-
         assertThrows(UnrecognizedOptionException.class, () -> parser.parse(localOptions, args));
     }
 
@@ -100,11 +99,11 @@ public void testAmbiguousLongWithoutEqualSingleDash() throws Exception {
     @Test
     public void testAmbiguousPartialLongOption1() throws Exception {
         final String[] args = { "--ver" };
-        final Options options = new Options();
-        options.addOption(OptionBuilder.withLongOpt("version").create());
-        options.addOption(OptionBuilder.withLongOpt("verbose").create());
+        final Options localOptions = new Options();
+        localOptions.addOption(OptionBuilder.withLongOpt("version").create());
+        localOptions.addOption(OptionBuilder.withLongOpt("verbose").create());
         final AmbiguousOptionException e = assertThrows(AmbiguousOptionException.class,
-                () -> parser.parse(options, args));
+                () -> parser.parse(localOptions, args));
         assertEquals("--ver", e.getOption(), "Partial option");
         assertNotNull(e.getMatchingOptions(), "Matching options null");
         assertEquals(2, e.getMatchingOptions().size(), "Matching options size");
@@ -255,14 +254,14 @@ public void testAmbiguousLongWithoutEqualSingleDash() throws Exception {
     }
 
     @Test
-    public void testMissingArg() throws Exception {
+    public void testMissingArg() {
         final MissingArgumentException e = assertThrows(MissingArgumentException.class,
                 () -> parser.parse(options, new String[] { "-b" }));
         assertEquals("b", e.getOption().getOpt(), "option missing an argument");
     }
 
     @Test
-    public void testMissingArgWithBursting() throws Exception {
+    public void testMissingArgWithBursting() {
         final String[] args = { "-acb" };
         final MissingArgumentException e = assertThrows(MissingArgumentException.class,
                 () -> parser.parse(options, args));
@@ -275,11 +274,11 @@ public void testAmbiguousLongWithoutEqualSingleDash() throws Exception {
         group.addOption(OptionBuilder.create("a"));
         group.addOption(OptionBuilder.create("b"));
         group.setRequired(true);
-        final Options options = new Options();
-        options.addOptionGroup(group);
-        options.addOption(OptionBuilder.isRequired().create("c"));
+        final Options localOptions = new Options();
+        localOptions.addOptionGroup(group);
+        localOptions.addOption(OptionBuilder.isRequired().create("c"));
         final MissingOptionException e = assertThrows(MissingOptionException.class,
-                () -> parser.parse(options, new String[] { "-c" }));
+                () -> parser.parse(localOptions, new String[] { "-c" }));
         assertEquals(1, e.getMissingOptions().size());
         assertTrue(e.getMissingOptions().get(0) instanceof OptionGroup);
     }
@@ -643,7 +642,7 @@ public void testAmbiguousLongWithoutEqualSingleDash() throws Exception {
     }
 
     @Test
-    public void testPropertyOptionUnexpected() throws Exception {
+    public void testPropertyOptionUnexpected() {
         final Options localOptions = new Options();
         final Properties properties = new Properties();
         properties.setProperty("f", "true");
@@ -850,14 +849,14 @@ public void testAmbiguousLongWithoutEqualSingleDash() throws Exception {
     }
 
     @Test
-    public void testUnrecognizedOption() throws Exception {
+    public void testUnrecognizedOption() {
         final UnrecognizedOptionException e = assertThrows(UnrecognizedOptionException.class,
                 () -> parser.parse(options, new String[] { "-a", "-d", "-b", "toast", "foo", "bar" }));
         assertEquals("-d", e.getOption());
     }
 
     @Test
-    public void testUnrecognizedOptionWithBursting() throws Exception {
+    public void testUnrecognizedOptionWithBursting() {
         final UnrecognizedOptionException e = assertThrows(UnrecognizedOptionException.class,
                 () -> parser.parse(options, new String[] { "-adbtoast", "foo", "bar" }));
         assertEquals("-adbtoast", e.getOption());

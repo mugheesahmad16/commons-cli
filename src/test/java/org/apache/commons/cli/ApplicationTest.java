@@ -39,12 +39,12 @@ import org.junit.jupiter.api.Test;
  * </p>
  */
 @SuppressWarnings("deprecation") // tests some deprecated classes
-public class ApplicationTest {
+class ApplicationTest {
     /**
      * Ant test
      */
     @Test
-    public void testAnt() throws Exception {
+    void testAnt() throws Exception {
         // use the GNU parser
         final CommandLineParser parser = new GnuParser();
         final Options options = new Options();
@@ -63,7 +63,6 @@ public class ApplicationTest {
                                         .hasArgs()
                                         .withValueSeparator()
                                         .create('D'));
-                           //, null, true, , false, true);
         //@formatter:on
         options.addOption("find", true, "search for buildfile towards the root of the filesystem and use it");
 
@@ -79,14 +78,14 @@ public class ApplicationTest {
         assertEquals("value1", opts[3]);
 
         // check single value
-        assertEquals(line.getOptionValue("buildfile"), "mybuild.xml");
+        assertEquals("mybuild.xml", line.getOptionValue("buildfile")); // Swapped arguments
 
         // check option
         assertTrue(line.hasOption("projecthelp"));
     }
 
     @Test
-    public void testGroovy() throws Exception {
+    void testGroovy() throws Exception {
         final Options options = new Options();
 
         //@formatter:off
@@ -156,7 +155,7 @@ public class ApplicationTest {
     }
 
     @Test
-    public void testLs() throws Exception {
+    void testLs() throws Exception {
         // create the command line parser
         final CommandLineParser parser = new PosixParser();
         final Options options = new Options();
@@ -179,14 +178,14 @@ public class ApplicationTest {
 
         final CommandLine line = parser.parse(options, args);
         assertTrue(line.hasOption("block-size"));
-        assertEquals(line.getOptionValue("block-size"), "10");
+        assertEquals("10",line.getOptionValue("block-size"));
     }
 
     /**
      * author Slawek Zachcial
      */
     @Test
-    public void testMan() {
+    void testMan() {
         final String cmdLine = "man [-c|-f|-k|-w|-tZT device] [-adlhu7V] [-Mpath] [-Ppager] [-Slist] [-msystem] [-pstring] [-Llocale] [-eextension] [section]"
             + " page ...";
         //@formatter:off
